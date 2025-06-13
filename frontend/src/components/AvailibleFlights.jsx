@@ -1,14 +1,23 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function AvailibleFlights({ flightSearch }) {
     const { from, to, date } = flightSearch;
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+        navigate('/search-flights');
+    };
 
     return (
         <div>
             <h1>Available Flights</h1>
 
+            <h2>Flights from {from} to {to}</h2>
+
             <div className="DateSelection">
 
                 <div className="User-Selection-yesterday">
-                    {date - 1}
+                    {/* One day before the selected date */}
                 </div>
 
                 <div className="User-Selected-Date">
@@ -16,12 +25,11 @@ export default function AvailibleFlights({ flightSearch }) {
                 </div>
 
                 <div className="User-Selection-tomorrow">
-                    {date + 1}
+                    {/* One day after the selected date */}
                 </div>
             </div>
 
             <div className="Flight-List">
-                <h2>Flights from {from} to {to}</h2>
                 <div className="Flight-Item">
                     <h2>Flight 1</h2>
                     <p>From: City A</p>
@@ -45,6 +53,10 @@ export default function AvailibleFlights({ flightSearch }) {
                     <p>Arrival: 6:00 PM</p>
                 </div>
             </div>
+
+            <button onClick={handleBack} className="back-button">
+                Back to Search
+            </button>
         </div>
     );
 }

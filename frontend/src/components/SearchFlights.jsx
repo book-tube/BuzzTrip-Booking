@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function SearchFlights( {onSearch, searchData} ) {
   const [airports, setAirports] = useState([]);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [date, setDate] = useState("");
+  const [from, setFrom] = useState(searchData.from || "" );
+  const [to, setTo] = useState(searchData.to || "");
+  const [date, setDate] = useState(searchData.date || "");
+  const [adults, setAdults] = useState(searchData.adults);
+  const [children, setChildren] = useState(searchData.children);
+
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -16,7 +19,7 @@ export default function SearchFlights( {onSearch, searchData} ) {
       return;
     }
 
-    onSearch({ from, to, date });
+    onSearch({ from, to, date, adults, children });
     navigate("/available-flights");
   };
 
@@ -51,6 +54,29 @@ export default function SearchFlights( {onSearch, searchData} ) {
             required
           />
         </label>
+        <div className="passengers">
+          <label>
+            Adults (12+ years):
+            <input
+              type="number"
+              min="1"
+              max="9"
+              value={adults}
+              onChange={(e) => setAdults(Number(e.target.value))}
+              required
+            />
+          </label>
+          <label>
+            Children (2-11 years):
+            <input
+              type="number"
+              min="0"
+              max="9"
+              value={children}
+              onChange={(e) => setChildren(Number(e.target.value))}
+            />
+          </label>
+        </div>
         <button type="submit">Search</button>
       </form>
     </div>
