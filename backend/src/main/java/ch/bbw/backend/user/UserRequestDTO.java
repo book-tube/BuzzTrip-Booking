@@ -8,6 +8,8 @@ public class UserRequestDTO {
     private String lastName;
     private String email;
     private LocalDate birthday;
+    private String password;
+    private String passport_number;
 
 
     public String getFirstName() {
@@ -42,16 +44,20 @@ public class UserRequestDTO {
         this.birthday = birthday;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        UserRequestDTO that = (UserRequestDTO) o;
-        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email) && Objects.equals(birthday, that.birthday);
+    public String getPassword() {
+        return password;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName, email, birthday);
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+    public String getPassport_number() {
+        return passport_number;
+    }
+
+    public void setPassport_number(String passport_number) {
+        this.passport_number = passport_number;
+    }
+
 }

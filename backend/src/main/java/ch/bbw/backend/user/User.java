@@ -97,6 +97,7 @@ public class User {
         this.password = password;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
