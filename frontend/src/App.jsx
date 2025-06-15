@@ -17,6 +17,8 @@ function App() {
     children: 0,
   });
 
+  const [FlightID, setFlightID] = useState("");
+
   return (
     <>
       <Router>
@@ -30,12 +32,27 @@ function App() {
               />
             }
           />
+
           <Route
             path="/available-flights"
-            element={<AvailibleFlights flightSearch={flightSearch} />}
+            element={
+              <AvailibleFlights
+                flightSearch={flightSearch}
+                setFlightID={setFlightID}
+              />
+            }
           />
-          <Route path="/flight-details" element={<FlightDetails />} />
-          <Route path="/choose-seats" element={<ChooseSeats />} />
+
+          <Route
+            path="/flight-details/:id"
+            element={<FlightDetails FlightID={FlightID} />}
+          />
+
+          <Route
+            path="/flight-details/:id/choose-seats"
+            element={<ChooseSeats FlightID={FlightID} />}
+          />
+
           <Route
             path="/passenger-information"
             element={<PassengerInformation />}

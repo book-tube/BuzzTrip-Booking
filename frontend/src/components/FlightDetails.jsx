@@ -1,4 +1,14 @@
-export default function FlightDetails() {
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+export default function FlightDetails( {FlightID} ) {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const handleChooseSeats = () => {
+        navigate(`/flight-details/${id}/choose-seats`);
+    };
+    
     return (
         <div className="flight-details">
             <h1>Flight Details</h1>
@@ -28,6 +38,14 @@ export default function FlightDetails() {
                     {/* Add more flights as needed */}
                 </tbody>
             </table>
+
+            <button onClick={() => navigate('/available-flights')}>
+                Back to Available Flights
+            </button>
+
+            <button onClick={handleChooseSeats}>
+                Choose Seats
+            </button>
         </div>
     );
 }

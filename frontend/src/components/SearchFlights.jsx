@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchFlights( {onSearch, searchData} ) {
-  const [airports, setAirports] = useState([]);
-  const [from, setFrom] = useState(searchData.from || "" );
+export default function SearchFlights({ onSearch, searchData = {} }) {
+  const [from, setFrom] = useState(searchData.from || "");
   const [to, setTo] = useState(searchData.to || "");
   const [date, setDate] = useState(searchData.date || "");
-  const [adults, setAdults] = useState(searchData.adults);
-  const [children, setChildren] = useState(searchData.children);
+  const [adults, setAdults] = useState(searchData.adults || 1);
+  const [children, setChildren] = useState(searchData.children || 0);
+
+
 
   const navigate = useNavigate();
 
