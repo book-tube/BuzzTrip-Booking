@@ -2,11 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function FlightDetails( {FlightID} ) {
-    const { id } = useParams();
     const navigate = useNavigate();
 
     const handleChooseSeats = () => {
-        navigate(`/flight-details/${id}/choose-seats`);
+        navigate(`/${FlightID}/choose-seats`);
     };
     
     return (

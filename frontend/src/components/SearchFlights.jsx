@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchFlights({ onSearch, searchData = {} }) {
-  const [from, setFrom] = useState(searchData.from || "");
-  const [to, setTo] = useState(searchData.to || "");
-  const [date, setDate] = useState(searchData.date || "");
-  const [adults, setAdults] = useState(searchData.adults || 1);
-  const [children, setChildren] = useState(searchData.children || 0);
+export default function SearchFlights({ setFlightSearch, flightSearch }) {
+
+  const [from, setFrom] = useState(flightSearch.from || "");
+  const [to, setTo] = useState(flightSearch.to || "");
+  const [date, setDate] = useState(flightSearch.date || "");
+  const [adults, setAdults] = useState(flightSearch.adults || 1);
+  const [children, setChildren] = useState(flightSearch.children || 0);
 
 
 
@@ -20,7 +21,7 @@ export default function SearchFlights({ onSearch, searchData = {} }) {
       return;
     }
 
-    onSearch({ from, to, date, adults, children });
+    setFlightSearch({ from, to, date, adults, children });
     navigate("/available-flights");
   };
 
