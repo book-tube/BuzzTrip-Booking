@@ -31,4 +31,13 @@ public class UserMapper {
         userDTO.setUser(toDTO(user));
         return userDTO;
     }
+
+    public static UserLightDTO toLightDTO(User user) {
+        if (user == null) return null;
+        UserLightDTO dto = new UserLightDTO();
+        dto.setId(user.getId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        return dto;
+    }
 }
