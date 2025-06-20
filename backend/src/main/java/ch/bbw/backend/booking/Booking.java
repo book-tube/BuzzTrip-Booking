@@ -1,5 +1,6 @@
 package ch.bbw.backend.booking;
 
+import ch.bbw.backend.adult.Adult;
 import ch.bbw.backend.user.User;
 import jakarta.persistence.*;
 
@@ -13,11 +14,17 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(insertable = false, updatable = false)
     private LocalDate bookingTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "adult_id", nullable = false)
+    private Adult adult;
+
 
     public Booking() {
     }
@@ -48,6 +55,14 @@ public class Booking {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Adult getAdult() {
+        return adult;
+    }
+
+    public void setAdult(Adult adult) {
+        this.adult = adult;
     }
 
     @Override
