@@ -1,4 +1,5 @@
 export default function BookingConfirmation() {
+    
     return (
         <div className="booking-confirmation">
             <h1>Booking Confirmation</h1>

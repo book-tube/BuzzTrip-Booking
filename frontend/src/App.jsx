@@ -1,61 +1,53 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
-import SearchFlights from "./components/SearchFlights.jsx";
-import AvailibleFlights from "./components/AvailibleFlights.jsx";
-import FlightDetails from "./components/FlightDetails.jsx";
-import ChooseSeats from "./components/ChooseSeats.jsx";
-import PassengerInformation from "./components/PassengerInformation.jsx";
-import Payment from "./components/Payment.jsx";
-import BookingConfirmation from "./components/BookingConfirmation.jsx";
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
+import SearchFlights from './components/SearchFlights'
+import AvailableFlights from './components/AvailableFlights'
+import FlightDetails from './components/FlightDetails'
+import ChooseSeats from './components/ChooseSeats'
+import PassengerInformation from './components/PassengerInformation'
+import Payment from './components/Payment'
+import BookingConfirmation from './components/BookingConfirmation'
+import Menu from './components/Menu'
+import Profile from './components/Profile'
+import Bookings from './components/Bookings'
 
-function App() {
-  const [flightSearch, setFlightSearch] = useState({
-    from: "",
-    to: "",
-    date: "",
-    adults: 1,
-    children: 0,
-  });
+export default function App() {
 
-  const [FlightID, setFlightID] = useState(null);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [flightSearch, setFlightSearch] = useState([])
+  const [flightID, setFlightID] = useState(null)
+  const [selectedSeats, setSelectedSeats] = useState([])
 
   return (
-    <Router>
+    <>
+      <Menu />
       <Routes>
         <Route
-          path="/search-flights"
+          path='/search-flights'
+          element={<SearchFlights setFlightSearch={setFlightSearch} flightSearch={flightSearch} />}
+        />
+        <Route
+          path='/available-flights'
           element={
-            <SearchFlights
-              onSearch={setFlightSearch}
-              searchData={flightSearch}
-            />
+            <AvailableFlights flightSearch={flightSearch} setFlightID={setFlightID} />
           }
         />
+        <Route path='/flight-details/:id' element={<FlightDetails />} />
         <Route
-          path="/available-flights"
-          element={
-            <AvailibleFlights
-              flightSearch={flightSearch}
-              setFlightID={setFlightID}
-            />
-          }
-        />
-        <Route
-          path="/flight-details/:id"
-          element={<FlightDetails FlightID={FlightID} />}
-        />
-        <Route
-          path="/flight-details/:id/choose-seats"
+          path='/:id/choose-seats'
           element={
             <ChooseSeats
-              passengerCount={flightSearch.adults + flightSearch.children}
-              onSeatsSelected={setSelectedSeats}
+              passengerCount={
+                (flightSearch?.adults ?? 0) + (flightSearch?.children ?? 0)
+              }
+              setSelectedSeats={setSelectedSeats}
+              selectedSeats={selectedSeats}
+              flightID={flightID}
             />
           }
         />
         <Route
-          path="/passenger-information"
+          path='/passenger-information'
           element={
             <PassengerInformation
               flightSearch={flightSearch}
@@ -63,9 +55,25 @@ function App() {
             />
           }
         />
-      </Routes>
-    </Router>
-  );
-}
+        <Route
+          path='/payment'
+          element={
+            <Payment
 
-export default App;
+            />
+          }
+        />
+        <Route
+          path='/booking-confirmation'
+          element={
+            <BookingConfirmation
+              flightID={flightID}
+            />
+          }
+        />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/bookings' element={<Bookings />} />
+      </Routes>
+    </>
+  )
+}

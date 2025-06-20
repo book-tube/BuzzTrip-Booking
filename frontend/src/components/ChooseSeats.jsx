@@ -14,23 +14,19 @@ const seatRows = [
   ["10A", "10B", "10C", "10D", "10E", "10F"],
 ];
 
-export default function ChooseSeats({ passengerCount, onSeatsSelected }) {
+export default function ChooseSeats({ passengerCount, setSelectedSeats, selectedSeats, flightID }) {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [occupiedSeats] = useState(["1B", "2C", "5E", "7A", "8F"]); // Example occupied seats
+  const [occupiedSeats] = useState(["1B", "2C", "5E", "7A", "8F"]);
 
   const handleSeatSelect = (seat) => {
     if (occupiedSeats.includes(seat)) {
-      return; // Seat is occupied
+      return; 
     }
 
     setSelectedSeats((prevSelected) => {
       if (prevSelected.includes(seat)) {
-        // If seat is already selected, remove it
         return prevSelected.filter((s) => s !== seat);
       } else if (prevSelected.length < passengerCount) {
-        // Add new seat only if we haven't reached the passenger limit
         return [...prevSelected, seat];
       }
       return prevSelected;
@@ -72,7 +68,7 @@ export default function ChooseSeats({ passengerCount, onSeatsSelected }) {
     };
   };
 
-  // Add a message to show how many seats still need to be selected
+
   const remainingSeats = passengerCount - selectedSeats.length;
 
   return (
@@ -186,7 +182,7 @@ export default function ChooseSeats({ passengerCount, onSeatsSelected }) {
         }}
       >
         <button
-          onClick={() => navigate(`/flight-details/${id}`)}
+          onClick={() => navigate(`/flight-details/${flightID}`)}
           style={{
             padding: "10px 20px",
             backgroundColor: "#f44336",
@@ -200,7 +196,7 @@ export default function ChooseSeats({ passengerCount, onSeatsSelected }) {
         </button>
         <button
           onClick={() => {
-            onSeatsSelected(selectedSeats);
+            setSelectedSeats(selectedSeats);
             navigate("/passenger-information");
           }}
           style={{

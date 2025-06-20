@@ -1,15 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
 export default function AvailibleFlights({ flightSearch, setFlightID} ) {
-    const { from, to, date } = flightSearch;
     const navigate = useNavigate();
 
     const handleBack = () => {
         navigate('/search-flights');
     };
-
-    const handleDateChange = (direction) => {
-    }
 
     const handleFlightSelection = (flightID) => {
         setFlightID(flightID);
@@ -20,7 +16,7 @@ export default function AvailibleFlights({ flightSearch, setFlightID} ) {
         <div>
             <h1>Available Flights</h1>
 
-            <h2>Flights from {from} to {to}</h2>
+            <h2>Flights from {flightSearch.from} to {flightSearch.to}</h2>
 
             <div className="DateSelection">
 
@@ -29,7 +25,7 @@ export default function AvailibleFlights({ flightSearch, setFlightID} ) {
                 </div>
 
                 <div className="User-Selected-Date">
-                    {date}
+                    {flightSearch.date}
                 </div>
 
                 <div className="User-Selection-tomorrow">
