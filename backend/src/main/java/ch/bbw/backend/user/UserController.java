@@ -51,7 +51,7 @@ public class UserController {
     @PermitAll
     @SecurityRequirements
     public ResponseEntity<?> signUp(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        if(userService.existsByEmailOrUsername(userRequestDTO.getEmail())) {
+        if(userService.existsByEmail(userRequestDTO.getEmail())) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
 

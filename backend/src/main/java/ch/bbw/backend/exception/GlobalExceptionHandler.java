@@ -1,6 +1,6 @@
 package ch.bbw.backend.exception;
 
-import ch.bbcag.backend.user.UserAlreadyExistsException;
+import ch.bbw.backend.user.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
