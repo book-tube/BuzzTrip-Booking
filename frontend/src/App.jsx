@@ -17,54 +17,54 @@ function App() {
     children: 0,
   });
 
-  const [FlightID, setFlightID] = useState("");
+  const [FlightID, setFlightID] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route
-            path="/search-flights"
-            element={
-              <SearchFlights
-                onSearch={setFlightSearch}
-                searchData={flightSearch}
-              />
-            }
-          />
-
-          <Route
-            path="/available-flights"
-            element={
-              <AvailibleFlights
-                flightSearch={flightSearch}
-                setFlightID={setFlightID}
-              />
-            }
-          />
-
-          <Route
-            path="/flight-details/:id"
-            element={<FlightDetails FlightID={FlightID} />}
-          />
-
-          <Route
-            path="/flight-details/:id/choose-seats"
-            element={<ChooseSeats FlightID={FlightID} />}
-          />
-
-          <Route
-            path="/passenger-information"
-            element={<PassengerInformation />}
-          />
-          <Route path="/payment" element={<Payment />} />
-          <Route
-            path="/booking-confirmation"
-            element={<BookingConfirmation />}
-          />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/search-flights"
+          element={
+            <SearchFlights
+              onSearch={setFlightSearch}
+              searchData={flightSearch}
+            />
+          }
+        />
+        <Route
+          path="/available-flights"
+          element={
+            <AvailibleFlights
+              flightSearch={flightSearch}
+              setFlightID={setFlightID}
+            />
+          }
+        />
+        <Route
+          path="/flight-details/:id"
+          element={<FlightDetails FlightID={FlightID} />}
+        />
+        <Route
+          path="/flight-details/:id/choose-seats"
+          element={
+            <ChooseSeats
+              passengerCount={flightSearch.adults + flightSearch.children}
+              onSeatsSelected={setSelectedSeats}
+            />
+          }
+        />
+        <Route
+          path="/passenger-information"
+          element={
+            <PassengerInformation
+              flightSearch={flightSearch}
+              selectedSeats={selectedSeats}
+            />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
