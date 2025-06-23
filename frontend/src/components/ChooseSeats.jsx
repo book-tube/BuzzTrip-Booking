@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const seatRows = [
   ["1A", "1B", "1C", "1D", "1E", "1F"],

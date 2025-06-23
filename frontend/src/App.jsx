@@ -1,5 +1,4 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useState } from 'react'
 import SearchFlights from './components/SearchFlights'
 import AvailableFlights from './components/AvailableFlights'
@@ -22,6 +21,7 @@ export default function App() {
     <>
       <Menu />
       <Routes>
+        <Route path="*" element={<Navigate to="/search-flights" replace />} />
         <Route
           path='/search-flights'
           element={<SearchFlights setFlightSearch={setFlightSearch} flightSearch={flightSearch} />}
