@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const seatRows = [
@@ -15,13 +15,27 @@ const seatRows = [
 ];
 
 export default function ChooseSeats({
-  passengerCount,
-  setSelectedSeats,
-  selectedSeats,
-  flightID,
+  flightDetailsID,
+  departureSelectedSeats,
+  setDepartureSelectedSeats,
+  setReturnSelectedSeats,
+  returnSelectedSeats,
+  setDepartureFlightID,
+  departureFlightID,
+  returnFlightID,
+  setReturnFlightID,
+  flightSearch,
 }) {
   const navigate = useNavigate();
   const [occupiedSeats] = useState(["1B", "2C", "5E", "7A", "8F"]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  const passengerCount = flightSearch.adults + flightSearch.children;
+  const remainingSeats = passengerCount - selectedSeats.length;
+
+  const handleBackToFlightDetails = () => {
+    navigate(`/flight-details/${flightDetailsID}`);
+  };
 
   const handleSeatSelect = (seat) => {
     if (occupiedSeats.includes(seat)) return;
@@ -36,26 +50,43 @@ export default function ChooseSeats({
     });
   };
 
-  const handleBackToFlightDetails = () => {
-    navigate(`/flight-details/${flightID}`);
-  };
-
-  const handleContinue = () => {
-    if (selectedSeats.length === passengerCount) {
-      
-      navigate("/passenger-information");
+  const handleChooseSeats = () => {
+    if (departureFlightID === null) {
+      console.log("Departure flight ID is null, setting it now.");
+      setDepartureFlightID(flightDetailsID);
+      setDepartureSelectedSeats(selectedSeats);
+      if (flightSearch.tripType === "roundtrip") {
+        navigate("/available-flights");
+      }
     } else {
-      alert(`Please select ${passengerCount - selectedSeats.length} more seat${passengerCount - selectedSeats.length !== 1 ? "s" : ""}`);
+      console.log("Return flight ID is null, setting it now.");
+      setReturnFlightID(flightDetailsID);
+      setReturnSelectedSeats(selectedSeats);
+      navigate("/passenger-information");
     }
   };
 
-  const remainingSeats = passengerCount - selectedSeats.length;
+  useEffect(() => {
+    if (departureSelectedSeats.length >= 0) {
+      // Do Nothing because no seats were selected previously
+    } else if (departureSelectedSeats.length > 0) {
+      // If there are selected seats from the departure flight, check if the return flight has selected seats
+      if (returnSelectedSeats.length > 0) {
+        // If there are selected seats from the return flight, set them as the selected seats
+        setSelectedSeats(returnSelectedSeats);
+      } else {
+        // If there are no selected seats from the return flight, set the departure selected seats
+        setSelectedSeats(departureSelectedSeats);
+      }
+    }
+  }, [flightDetailsID, departureFlightID, returnFlightID, setDepartureFlightID, setReturnFlightID]);
 
   return (
     <div className="choose-seats-container">
       <h1 className="choose-seats-title">Choose Your Seats</h1>
       <p className="choose-seats-subtitle">
-        Please select {remainingSeats} more seat{remainingSeats !== 1 ? "s" : ""}
+        Please select {remainingSeats} more seat
+        {remainingSeats !== 1 ? "s" : ""}
       </p>
 
       <div className="seat-map">
@@ -71,9 +102,9 @@ export default function ChooseSeats({
                 {row.slice(0, 3).map((seat) => (
                   <button
                     key={seat}
-                    className={`seat ${occupiedSeats.includes(seat) ? "occupied" : ""} ${
-                      selectedSeats.includes(seat) ? "selected" : ""
-                    }`}
+                    className={`seat ${
+                      occupiedSeats.includes(seat) ? "occupied" : ""
+                    } ${selectedSeats.includes(seat) ? "selected" : ""}`}
                     onClick={() => handleSeatSelect(seat)}
                     disabled={occupiedSeats.includes(seat)}
                   >
@@ -86,9 +117,9 @@ export default function ChooseSeats({
                 {row.slice(3, 6).map((seat) => (
                   <button
                     key={seat}
-                    className={`seat ${occupiedSeats.includes(seat) ? "occupied" : ""} ${
-                      selectedSeats.includes(seat) ? "selected" : ""
-                    }`}
+                    className={`seat ${
+                      occupiedSeats.includes(seat) ? "occupied" : ""
+                    } ${selectedSeats.includes(seat) ? "selected" : ""}`}
                     onClick={() => handleSeatSelect(seat)}
                     disabled={occupiedSeats.includes(seat)}
                   >
@@ -109,13 +140,13 @@ export default function ChooseSeats({
 
       <div className="choose-seats-buttons">
         <button
-          onClick={() => navigate(`/flight-details/${flightID}`)}
+          onClick={() => handleBackToFlightDetails()}
           className="back-button"
         >
           Back to Flight Details
         </button>
         <button
-          onClick={() => navigate("/passenger-information")}
+          onClick={() => handleChooseSeats()}
           className="continue-button"
           disabled={selectedSeats.length !== passengerCount}
         >

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export default function AvailableFlights({ flightSearch }) {
-  const [isReturnPhase, setIsReturnPhase] = useState(false);
+export default function AvailableFlights({ flightSearch, setFlightDetailsID, departureFlightID, setDepartureFlightID }) {
+  const [isReturnPhase, setIsReturnPhase] = useState(departureFlightID ? true : false);
 
   const navigate = useNavigate();
 
@@ -10,8 +10,9 @@ export default function AvailableFlights({ flightSearch }) {
     navigate("/search-flights");
   };
 
-  const handleFlightSelection = (flightDetailsID) => {
+  const handleFlightDetailsSelection = (flightDetailsID) => {
     navigate(`/flight-details/${flightDetailsID}`);
+    setFlightDetailsID(flightDetailsID);
   }
 
 
@@ -40,7 +41,7 @@ export default function AvailableFlights({ flightSearch }) {
 
         <div
           className="Flight-Item"
-          onClick={() => handleFlightSelection("ZH1AB2")}
+          onClick={() => handleFlightDetailsSelection("ZH1AB2")}
         >
           <h2>Flight 1</h2>
           <p>From: {isReturnPhase ? flightSearch.to : flightSearch.from}</p>
@@ -51,7 +52,7 @@ export default function AvailableFlights({ flightSearch }) {
 
         <div
           className="Flight-Item"
-          onClick={() => handleFlightSelection("ZH1AB3")}
+          onClick={() => handleFlightDetailsSelection("ZH1AB3")}
         >
           <h2>Flight 2</h2>
           <p>From: {isReturnPhase ? flightSearch.to : flightSearch.from}</p>
@@ -61,7 +62,7 @@ export default function AvailableFlights({ flightSearch }) {
         </div>
         <div
           className="Flight-Item"
-          onClick={() => handleFlightSelection("ZH1AB4")}
+          onClick={() => handleFlightDetailsSelection("ZH1AB4")}
         >
           <h2>Flight 3</h2>
           <p>From: {isReturnPhase ? flightSearch.to : flightSearch.from}</p>
@@ -73,6 +74,14 @@ export default function AvailableFlights({ flightSearch }) {
 
       <button onClick={handleBack} className="back-button">
         Back to Search
+      </button>
+
+      <button style={{ display: isReturnPhase ? "block" : "none" }} onClick={() => {
+        navigate(`/${departureFlightID}/choose-seats`)
+        setDepartureFlightID(null);
+        console.log("Navigating to choose seats for flight:", departureFlightID);
+      }} className="back-button">
+        Back to Outbound Seat Selection
       </button>
     </div>
   );

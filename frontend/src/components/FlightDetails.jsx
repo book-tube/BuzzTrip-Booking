@@ -1,12 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-export default function FlightDetails({ flightID, flightSearch,  }) {
+export default function FlightDetails({ flightSearch, setFlightDetailsID, flightDetailsID }) {
   const navigate = useNavigate();
 
   const handleChooseSeats = () => {
-    navigate(`/${flightID}/choose-seats`);
+    navigate(`/${flightDetailsID}/choose-seats`);
   };
+
+  const handleBack = () => {
+    navigate("/available-flights");
+    setFlightDetailsID(null);
+  }
 
   return (
     <div className="flight-details">
@@ -38,7 +43,7 @@ export default function FlightDetails({ flightID, flightSearch,  }) {
         </tbody>
       </table>
 
-      <button onClick={() => navigate("/available-flights")}>
+      <button onClick={handleBack} className="back-button">
         Back to Available Flights
       </button>
 

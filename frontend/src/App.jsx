@@ -19,7 +19,7 @@ export default function App() {
     returnDate: "",
     adults: 1,
     children: 0,
-    tripType: "",
+    tripType: "", // "oneway" or "roundtrip"
   });
   const [flightDetailsID, setFlightDetailsID] = useState(null);
   const [departureFlightID, setDepartureFlightID] = useState(null);
@@ -47,13 +47,20 @@ export default function App() {
           element={
             <AvailableFlights
               flightSearch={flightSearch}
+              setFlightDetailsID={setFlightDetailsID}
+              setDepartureFlightID={setDepartureFlightID}
+              departureFlightID={departureFlightID}
             />
           }
         />
         <Route
           path="/flight-details/:id"
           element={
-            <FlightDetails flightID={flightID} flightSearch={flightSearch} />
+            <FlightDetails
+              flightSearch={flightSearch}
+              setFlightDetailsID={setFlightDetailsID}
+              flightDetailsID={flightDetailsID}
+            />
           }
         />
         <Route
@@ -63,11 +70,15 @@ export default function App() {
               passengerCount={
                 (flightSearch?.adults ?? 0) + (flightSearch?.children ?? 0)
               }
-              setSelectedSeats={setSelectedSeats}
-              selectedSeats={selectedSeats}
-              setReturnSeats={setReturnSeats}
-              returnSeats={returnSeats}
-              flightID={flightID}
+              flightDetailsID={flightDetailsID}
+              departureSelectedSeats={departureSelectedSeats}
+              setDepartureSelectedSeats={setDepartureSelectedSeats}
+              setReturnSelectedSeats={setReturnSelectedSeats}
+              returnSelectedSeats={returnSelectedSeats}
+              setDepartureFlightID={setDepartureFlightID}
+              departureFlightID={departureFlightID}
+              returnFlightID={returnFlightID}
+              setReturnFlightID={setReturnFlightID}
               flightSearch={flightSearch}
             />
           }
@@ -77,14 +88,19 @@ export default function App() {
           element={
             <PassengerInformation
               flightSearch={flightSearch}
-              selectedSeats={selectedSeats}
+              departureFlightID={departureFlightID}
+              returnFlightID={returnFlightID}
+              departureSelectedSeats={departureSelectedSeats}
+              returnSelectedSeats={returnSelectedSeats}
             />
           }
         />
         <Route path="/payment" element={<Payment />} />
         <Route
           path="/booking-confirmation"
-          element={<BookingConfirmation flightID={flightID} />}
+          element={
+            <BookingConfirmation departureFlightID={departureFlightID} />
+          }
         />
         <Route path="/profile" element={<Profile />} />
         <Route path="/bookings" element={<Bookings />} />
