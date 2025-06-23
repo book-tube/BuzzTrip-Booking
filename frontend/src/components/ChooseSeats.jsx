@@ -14,14 +14,17 @@ const seatRows = [
   ["10A", "10B", "10C", "10D", "10E", "10F"],
 ];
 
-export default function ChooseSeats({ passengerCount, setSelectedSeats, selectedSeats, flightID }) {
+export default function ChooseSeats({
+  passengerCount,
+  setSelectedSeats,
+  selectedSeats,
+  flightID,
+}) {
   const navigate = useNavigate();
   const [occupiedSeats] = useState(["1B", "2C", "5E", "7A", "8F"]);
 
   const handleSeatSelect = (seat) => {
-    if (occupiedSeats.includes(seat)) {
-      return; 
-    }
+    if (occupiedSeats.includes(seat)) return;
 
     setSelectedSeats((prevSelected) => {
       if (prevSelected.includes(seat)) {
@@ -33,104 +36,44 @@ export default function ChooseSeats({ passengerCount, setSelectedSeats, selected
     });
   };
 
-  const getSeatStyle = (seat) => {
-    const baseStyle = {
-      width: "40px",
-      height: "40px",
-      margin: "2px",
-      border: "1px solid #ccc",
-      borderRadius: "4px",
-      cursor: "pointer",
-    };
-
-    if (occupiedSeats.includes(seat)) {
-      return {
-        ...baseStyle,
-        backgroundColor: "gray",
-        cursor: "not-allowed",
-      };
-    }
-
-    if (selectedSeats.includes(seat)) {
-      return {
-        ...baseStyle,
-        backgroundColor: "#4CAF50",
-        color: "white",
-      };
-    }
-
-    return {
-      ...baseStyle,
-      backgroundColor: "#fff",
-      "&:hover": {
-        backgroundColor: "#e0e0e0",
-      },
-    };
+  const handleBackToFlightDetails = () => {
+    navigate(`/flight-details/${flightID}`);
   };
 
+  const handleContinue = () => {
+    if (selectedSeats.length === passengerCount) {
+      
+      navigate("/passenger-information");
+    } else {
+      alert(`Please select ${passengerCount - selectedSeats.length} more seat${passengerCount - selectedSeats.length !== 1 ? "s" : ""}`);
+    }
+  };
 
   const remainingSeats = passengerCount - selectedSeats.length;
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "800px",
-        margin: "0 auto",
-      }}
-    >
-      <h1
-        style={{
-          textAlign: "center",
-          marginBottom: "20px",
-        }}
-      >
-        Choose Your Seats
-      </h1>
-      <p
-        style={{
-          textAlign: "center",
-          marginBottom: "20px",
-        }}
-      >
-        Please select {remainingSeats} more seat
-        {remainingSeats !== 1 ? "s" : ""}
+    <div className="choose-seats-container">
+      <h1 className="choose-seats-title">Choose Your Seats</h1>
+      <p className="choose-seats-subtitle">
+        Please select {remainingSeats} more seat{remainingSeats !== 1 ? "s" : ""}
       </p>
 
-      <div
-        style={{
-          backgroundColor: "#f5f5f5",
-          padding: "20px",
-          borderRadius: "8px",
-          marginBottom: "20px",
-        }}
-      >
-        <div
-          style={{
-            textAlign: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <p style={{ fontWeight: "bold" }}>Cockpit</p>
+      <div className="seat-map">
+        <div className="seat-map-header">
+          <p className="bold">Cockpit</p>
           <p>🚪 Exit 🚪</p>
         </div>
 
-        <div>
+        <div className="seat-rows">
           {seatRows.map((row, rowIndex) => (
-            <div
-              key={rowIndex}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "4px",
-              }}
-            >
-              {/* Left side: A, B, C */}
-              <div style={{ display: "flex", gap: "4px" }}>
+            <div key={rowIndex} className="seat-row">
+              <div className="seat-side">
                 {row.slice(0, 3).map((seat) => (
                   <button
                     key={seat}
-                    style={getSeatStyle(seat)}
+                    className={`seat ${occupiedSeats.includes(seat) ? "occupied" : ""} ${
+                      selectedSeats.includes(seat) ? "selected" : ""
+                    }`}
                     onClick={() => handleSeatSelect(seat)}
                     disabled={occupiedSeats.includes(seat)}
                   >
@@ -138,16 +81,14 @@ export default function ChooseSeats({ passengerCount, setSelectedSeats, selected
                   </button>
                 ))}
               </div>
-
-              {/* Aisle */}
-              <div style={{ width: "40px" }}></div>
-
-              {/* Right side: D, E, F */}
-              <div style={{ display: "flex", gap: "4px" }}>
+              <div className="seat-aisle"></div>
+              <div className="seat-side">
                 {row.slice(3, 6).map((seat) => (
                   <button
                     key={seat}
-                    style={getSeatStyle(seat)}
+                    className={`seat ${occupiedSeats.includes(seat) ? "occupied" : ""} ${
+                      selectedSeats.includes(seat) ? "selected" : ""
+                    }`}
                     onClick={() => handleSeatSelect(seat)}
                     disabled={occupiedSeats.includes(seat)}
                   >
@@ -159,54 +100,23 @@ export default function ChooseSeats({ passengerCount, setSelectedSeats, selected
           ))}
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "20px",
-            padding: "10px",
-            borderTop: "1px solid #ddd",
-          }}
-        >
+        <div className="seat-map-footer">
           <p>🚻 Restroom</p>
           <p>🚪 Exit</p>
           <p>🚻 Restroom</p>
         </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-        }}
-      >
+      <div className="choose-seats-buttons">
         <button
           onClick={() => navigate(`/flight-details/${flightID}`)}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#f44336",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          className="back-button"
         >
           Back to Flight Details
         </button>
         <button
-          onClick={() => {
-            setSelectedSeats(selectedSeats);
-            navigate("/passenger-information");
-          }}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          onClick={() => navigate("/passenger-information")}
+          className="continue-button"
           disabled={selectedSeats.length !== passengerCount}
         >
           Continue

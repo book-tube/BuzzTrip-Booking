@@ -1,68 +1,79 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export default function AvailibleFlights({ flightSearch, setFlightID} ) {
-    const navigate = useNavigate();
+export default function AvailableFlights({ flightSearch }) {
+  const [isReturnPhase, setIsReturnPhase] = useState(false);
 
-    const handleBack = () => {
-        navigate('/search-flights');
-    };
+  const navigate = useNavigate();
 
-    const handleFlightSelection = (flightID) => {
-        setFlightID(flightID);
-        navigate('/flight-details/' + flightID);
-    }
+  const handleBack = () => {
+    navigate("/search-flights");
+  };
 
-    return (
-        <div>
-            <h1>Available Flights</h1>
+  const handleFlightSelection = (flightDetailsID) => {
+    navigate(`/flight-details/${flightDetailsID}`);
+  }
 
-            <h2>Flights from {flightSearch.from} to {flightSearch.to}</h2>
 
-            <div className="DateSelection">
 
-                <div className="User-Selection-yesterday">
-                    {/* One day before the selected date */}
-                </div>
+  return (
+    <div className="AvailableFlights">
+      <h1>{isReturnPhase ? "Available Return-Flights" : "Available Flights"}</h1>
 
-                <div className="User-Selected-Date">
-                    {flightSearch.date}
-                </div>
+      <h2>
+        Flights from {isReturnPhase ? flightSearch.to : flightSearch.from} to {isReturnPhase ? flightSearch.from : flightSearch.to}
+      </h2>
 
-                <div className="User-Selection-tomorrow">
-                    {/* One day after the selected date */}
-                </div>
-            </div>
-
-            <div className="Flight-List">
-                {/* Example flight data, replace with actual data */}
-
-                <div className="Flight-Item" onClick={() => handleFlightSelection('ZH1AB2')}>
-                    <h2>Flight 1</h2>
-                    <p>From: City A</p>
-                    <p>To: City B</p>
-                    <p>Departure: 10:00 AM</p>
-                    <p>Arrival: 12:00 PM</p>
-                </div>
-
-                <div className="Flight-Item" onClick={() => handleFlightSelection('ZH1AB3')}>
-                    <h2>Flight 2</h2>
-                    <p>From: City C</p>
-                    <p>To: City D</p>
-                    <p>Departure: 1:00 PM</p>
-                    <p>Arrival: 3:00 PM</p>
-                </div>
-                <div className="Flight-Item" onClick={() => handleFlightSelection('ZH1AB4')}>
-                    <h2>Flight 3</h2>
-                    <p>From: City E</p>
-                    <p>To: City F</p>
-                    <p>Departure: 4:00 PM</p>
-                    <p>Arrival: 6:00 PM</p>
-                </div>
-            </div>
-
-            <button onClick={handleBack} className="back-button">
-                Back to Search
-            </button>
+      <div className="DateSelection">
+        <div className="User-Selection-yesterday">
+          {/* One day before the selected date */}
         </div>
-    );
+
+        <div className="User-Selected-Date"> {flightSearch.date} </div>
+
+        <div className="User-Selection-tomorrow">
+          {/* One day after the selected date */}
+        </div>
+      </div>
+
+      <div className="Flight-List">
+
+        <div
+          className="Flight-Item"
+          onClick={() => handleFlightSelection("ZH1AB2")}
+        >
+          <h2>Flight 1</h2>
+          <p>From: {isReturnPhase ? flightSearch.to : flightSearch.from}</p>
+          <p>To: {isReturnPhase ? flightSearch.from : flightSearch.to}</p>
+          <p>Departure: 10:00 AM</p>
+          <p>Arrival: 12:00 PM</p>
+        </div>
+
+        <div
+          className="Flight-Item"
+          onClick={() => handleFlightSelection("ZH1AB3")}
+        >
+          <h2>Flight 2</h2>
+          <p>From: {isReturnPhase ? flightSearch.to : flightSearch.from}</p>
+          <p>To: {isReturnPhase ? flightSearch.from : flightSearch.to}</p>
+          <p>Departure: 1:00 PM</p>
+          <p>Arrival: 3:00 PM</p>
+        </div>
+        <div
+          className="Flight-Item"
+          onClick={() => handleFlightSelection("ZH1AB4")}
+        >
+          <h2>Flight 3</h2>
+          <p>From: {isReturnPhase ? flightSearch.to : flightSearch.from}</p>
+          <p>To: {isReturnPhase ? flightSearch.from : flightSearch.to}</p>
+          <p>Departure: 4:00 PM</p>
+          <p>Arrival: 6:00 PM</p>
+        </div>
+      </div>
+
+      <button onClick={handleBack} className="back-button">
+        Back to Search
+      </button>
+    </div>
+  );
 }

@@ -1,40 +1,63 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { useState } from 'react'
-import SearchFlights from './components/SearchFlights'
-import AvailableFlights from './components/AvailableFlights'
-import FlightDetails from './components/FlightDetails'
-import ChooseSeats from './components/ChooseSeats'
-import PassengerInformation from './components/PassengerInformation'
-import Payment from './components/Payment'
-import BookingConfirmation from './components/BookingConfirmation'
-import Menu from './components/Menu'
-import Profile from './components/Profile'
-import Bookings from './components/Bookings'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
+import SearchFlights from "./components/SearchFlights";
+import AvailableFlights from "./components/AvailableFlights";
+import FlightDetails from "./components/FlightDetails";
+import ChooseSeats from "./components/ChooseSeats";
+import PassengerInformation from "./components/PassengerInformation";
+import Payment from "./components/Payment";
+import BookingConfirmation from "./components/BookingConfirmation";
+import Menu from "./components/Menu";
+import Profile from "./components/Profile";
+import Bookings from "./components/Bookings";
 
 export default function App() {
-
-  const [flightSearch, setFlightSearch] = useState([])
-  const [flightID, setFlightID] = useState(null)
-  const [selectedSeats, setSelectedSeats] = useState([])
+  const [flightSearch, setFlightSearch] = useState({
+    from: "",
+    to: "",
+    departureDate: "",
+    returnDate: "",
+    adults: 1,
+    children: 0,
+    tripType: "",
+  });
+  const [flightDetailsID, setFlightDetailsID] = useState(null);
+  const [departureFlightID, setDepartureFlightID] = useState(null);
+  const [returnFlightID, setReturnFlightID] = useState(null);
+  const [departureSelectedSeats, setDepartureSelectedSeats] = useState([]);
+  const [returnSelectedSeats, setReturnSelectedSeats] = useState([]);
 
   return (
     <>
       <Menu />
       <Routes>
-        <Route path="*" element={<Navigate to="/search-flights" replace />} />
+        <Route path="*" element={<Navigate to="/search-flights" replace />} />{" "}
+        // Redirect to search flights if no path matches
         <Route
-          path='/search-flights'
-          element={<SearchFlights setFlightSearch={setFlightSearch} flightSearch={flightSearch} />}
-        />
-        <Route
-          path='/available-flights'
+          path="/search-flights"
           element={
-            <AvailableFlights flightSearch={flightSearch} setFlightID={setFlightID} />
+            <SearchFlights
+              setFlightSearch={setFlightSearch}
+              flightSearch={flightSearch}
+            />
           }
         />
-        <Route path='/flight-details/:id' element={<FlightDetails />} />
         <Route
-          path='/:id/choose-seats'
+          path="/available-flights"
+          element={
+            <AvailableFlights
+              flightSearch={flightSearch}
+            />
+          }
+        />
+        <Route
+          path="/flight-details/:id"
+          element={
+            <FlightDetails flightID={flightID} flightSearch={flightSearch} />
+          }
+        />
+        <Route
+          path="/:id/choose-seats"
           element={
             <ChooseSeats
               passengerCount={
@@ -42,12 +65,15 @@ export default function App() {
               }
               setSelectedSeats={setSelectedSeats}
               selectedSeats={selectedSeats}
+              setReturnSeats={setReturnSeats}
+              returnSeats={returnSeats}
               flightID={flightID}
+              flightSearch={flightSearch}
             />
           }
         />
         <Route
-          path='/passenger-information'
+          path="/passenger-information"
           element={
             <PassengerInformation
               flightSearch={flightSearch}
@@ -55,25 +81,14 @@ export default function App() {
             />
           }
         />
+        <Route path="/payment" element={<Payment />} />
         <Route
-          path='/payment'
-          element={
-            <Payment
-
-            />
-          }
+          path="/booking-confirmation"
+          element={<BookingConfirmation flightID={flightID} />}
         />
-        <Route
-          path='/booking-confirmation'
-          element={
-            <BookingConfirmation
-              flightID={flightID}
-            />
-          }
-        />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/bookings' element={<Bookings />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/bookings" element={<Bookings />} />
       </Routes>
     </>
-  )
+  );
 }
