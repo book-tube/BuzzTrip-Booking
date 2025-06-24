@@ -8,6 +8,8 @@ import PassengerInformation from "./components/PassengerInformation";
 import Payment from "./components/Payment";
 import BookingConfirmation from "./components/BookingConfirmation";
 import Menu from "./components/Menu";
+import LogIn from "./components/LogIn";
+import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import Bookings from "./components/Bookings";
 
@@ -27,12 +29,33 @@ export default function App() {
   const [departureSelectedSeats, setDepartureSelectedSeats] = useState([]);
   const [returnSelectedSeats, setReturnSelectedSeats] = useState([]);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
   return (
     <>
-      <Menu />
+      <Menu isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="*" element={<Navigate to="/search-flights" replace />} />{" "}
         // Redirect to search flights if no path matches
+
+        <Route
+         path="/log-in" 
+         element={
+            <LogIn 
+            setIsLoggedIn={setIsLoggedIn} 
+            />
+          }    
+         />
+
+        <Route 
+        path="/sign-up" 
+        element={
+            <SignUp 
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }   
+        />
+
         <Route
           path="/search-flights"
           element={
@@ -42,6 +65,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="/available-flights"
           element={
@@ -53,6 +77,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="/flight-details/:id"
           element={
@@ -63,6 +88,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="/:id/choose-seats"
           element={
@@ -83,6 +109,7 @@ export default function App() {
             />
           }
         />
+
         <Route
           path="/passenger-information"
           element={
@@ -95,15 +122,41 @@ export default function App() {
             />
           }
         />
-        <Route path="/payment" element={<Payment />} />
+
+        <Route 
+        path="/payment" 
+        element={
+            <Payment 
+            />
+          } 
+        />
+
         <Route
           path="/booking-confirmation"
           element={
-            <BookingConfirmation departureFlightID={departureFlightID} />
+            <BookingConfirmation 
+              departureFlightID={departureFlightID} 
+            />
           }
         />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/bookings" element={<Bookings />} />
+
+        <Route 
+        path="/profile" 
+        element={
+            <Profile 
+
+            />
+          } 
+        />
+
+        <Route 
+        path="/bookings" 
+        element={
+            <Bookings 
+            />
+          } 
+        />
+        
       </Routes>
     </>
   );

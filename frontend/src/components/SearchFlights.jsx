@@ -80,6 +80,8 @@ export default function SearchFlights({ setFlightSearch, flightSearch }) {
 
   const navigate = useNavigate();
 
+  const today = new Date().toISOString().split("T")[0];
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -155,6 +157,7 @@ export default function SearchFlights({ setFlightSearch, flightSearch }) {
               type="date"
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
+              min={today}
               required
             />
           </label>
@@ -165,6 +168,7 @@ export default function SearchFlights({ setFlightSearch, flightSearch }) {
                 type="date"
                 value={returnDate}
                 onChange={(e) => setReturnDate(e.target.value)}
+                min={departureDate}
                 required={tripType === "roundtrip"}
               />
             </label>
