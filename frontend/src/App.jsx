@@ -39,7 +39,7 @@ export default function App() {
     <>
       <Menu isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="*" element={<Navigate to="/search-flights" replace />} />{" "}
+        <Route path="*" element={<Navigate to="/search-flights" replace />} />
         // Redirect to search flights if no path matches
 
         <Route

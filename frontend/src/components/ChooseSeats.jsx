@@ -30,6 +30,7 @@ export default function ChooseSeats({
   const [occupiedSeats] = useState(["1B", "2C", "5E", "7A", "8F"]);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
+  const token = sessionStorage.getItem("authToken");
   const passengerCount = flightSearch.adults + flightSearch.children;
   const remainingSeats = passengerCount - selectedSeats.length;
 

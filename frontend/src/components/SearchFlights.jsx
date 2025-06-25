@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 
+/* Slider settings */
+
 const settings = {
   dots: true,
   infinite: true,
@@ -23,6 +25,70 @@ const settings = {
     },
   ],
 };
+const destinations = [
+  {
+    name: "Paris",
+    image: "https://cdn.pixabay.com/photo/2017/01/03/22/00/tower-1950742_1280.jpg",
+  },
+  {
+    name: "Dubai",
+    image: "https://cdn.pixabay.com/photo/2020/03/19/18/29/camel-4948299_1280.jpg",
+  },
+  {
+    name: "Tokyo",
+    image: "https://cdn.pixabay.com/photo/2019/08/28/14/24/tokyo-4436914_1280.jpg",
+  },
+  {
+    name: "New York",
+    image: "https://cdn.pixabay.com/photo/2016/01/02/16/20/new-york-1118418_1280.jpg",
+  },
+  {
+    name: "Barcelona",
+    image: "https://cdn.pixabay.com/photo/2020/03/03/17/53/barcelona-4899368_1280.jpg",
+  },
+  {
+    name: "London",
+    image: "https://cdn.pixabay.com/photo/2021/08/12/05/19/cathedral-6539937_1280.jpg",
+  },
+  {
+    name: "Zürich",
+    image: "https://cdn.pixabay.com/photo/2020/05/13/14/02/zurich-5167574_1280.jpg",
+  },
+  {
+    name: "Amsterdam",
+    image: "https://cdn.pixabay.com/photo/2020/07/03/16/42/amsterdam-5367020_1280.jpg",
+  },
+  {
+    name: "Singapore",
+    image: "https://cdn.pixabay.com/photo/2017/07/31/06/20/singapore-2556628_1280.jpg",
+  },
+  {
+    name: "Istanbul",
+    image: "https://cdn.pixabay.com/photo/2019/06/30/09/31/istanbul-4307665_1280.jpg",
+  },
+  {
+    name: "Frankfurt",
+    image: "https://cdn.pixabay.com/photo/2022/03/26/10/55/building-7092747_1280.jpg",
+  },
+  {
+    name: "Los Angeles",
+    image: "https://cdn.pixabay.com/photo/2017/06/29/19/57/beverly-hills-hotel-2455977_1280.jpg",
+  },
+  {
+    name: "Vienna",
+    image: "https://cdn.pixabay.com/photo/2017/01/23/21/05/castle-2003867_1280.jpg",
+  },
+  {
+    name: "Munich",
+    image: "https://cdn.pixabay.com/photo/2015/06/05/16/47/munich-798652_1280.jpghttps://cdn.pixabay.com/photo/2015/06/05/16/47/munich-798652_1280.jpg",
+  },
+  {
+    name: "São Paulo",
+    image: "https://cdn.pixabay.com/photo/2016/02/17/22/46/buildings-1206160_1280.jpg",
+  },
+];
+
+/* ---------------------*/ 
 
 const airports = [
   { code: "LHR", name: "London Heathrow", city: "London", country: "UK" },
@@ -89,69 +155,6 @@ const airports = [
     name: "São Paulo–Guarulhos",
     city: "São Paulo",
     country: "Brazil",
-  },
-];
-
-const destinations = [
-  {
-    name: "Paris",
-    image: "https://cdn.pixabay.com/photo/2017/01/03/22/00/tower-1950742_1280.jpg",
-  },
-  {
-    name: "Dubai",
-    image: "https://cdn.pixabay.com/photo/2020/03/19/18/29/camel-4948299_1280.jpg",
-  },
-  {
-    name: "Tokyo",
-    image: "https://cdn.pixabay.com/photo/2019/08/28/14/24/tokyo-4436914_1280.jpg",
-  },
-  {
-    name: "New York",
-    image: "https://cdn.pixabay.com/photo/2016/01/02/16/20/new-york-1118418_1280.jpg",
-  },
-  {
-    name: "Barcelona",
-    image: "https://cdn.pixabay.com/photo/2020/03/03/17/53/barcelona-4899368_1280.jpg",
-  },
-  {
-    name: "London",
-    image: "https://cdn.pixabay.com/photo/2021/08/12/05/19/cathedral-6539937_1280.jpg",
-  },
-  {
-    name: "Zürich",
-    image: "https://cdn.pixabay.com/photo/2020/05/13/14/02/zurich-5167574_1280.jpg",
-  },
-  {
-    name: "Amsterdam",
-    image: "https://cdn.pixabay.com/photo/2020/07/03/16/42/amsterdam-5367020_1280.jpg",
-  },
-  {
-    name: "Singapore",
-    image: "https://cdn.pixabay.com/photo/2017/07/31/06/20/singapore-2556628_1280.jpg",
-  },
-  {
-    name: "Istanbul",
-    image: "https://cdn.pixabay.com/photo/2019/06/30/09/31/istanbul-4307665_1280.jpg",
-  },
-  {
-    name: "Frankfurt",
-    image: "https://cdn.pixabay.com/photo/2022/03/26/10/55/building-7092747_1280.jpg",
-  },
-  {
-    name: "Los Angeles",
-    image: "https://cdn.pixabay.com/photo/2017/06/29/19/57/beverly-hills-hotel-2455977_1280.jpg",
-  },
-  {
-    name: "Vienna",
-    image: "https://cdn.pixabay.com/photo/2017/01/23/21/05/castle-2003867_1280.jpg",
-  },
-  {
-    name: "Munich",
-    image: "https://cdn.pixabay.com/photo/2015/06/05/16/47/munich-798652_1280.jpghttps://cdn.pixabay.com/photo/2015/06/05/16/47/munich-798652_1280.jpg",
-  },
-  {
-    name: "São Paulo",
-    image: "https://cdn.pixabay.com/photo/2016/02/17/22/46/buildings-1206160_1280.jpg",
   },
 ];
 

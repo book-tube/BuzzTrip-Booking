@@ -3,8 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function FlightDetails({ flightSearch, setFlightDetailsID, flightDetailsID }) {
   const navigate = useNavigate();
+  
+  const token = sessionStorage.getItem("authToken");
 
   const handleChooseSeats = () => {
+    if (token === null) {
+      navigate("/log-in");
+      return;
+    }
+
     navigate(`/${flightDetailsID}/choose-seats`);
   };
 

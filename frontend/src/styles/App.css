@@ -407,6 +407,7 @@ h2 {
 }
 
 /* Page Containers */
+.profile-container,
 .passenger-information-container,
 .signup-container,
 .login-container,
@@ -495,6 +496,7 @@ input[type="password"] {
     gap: 15px;
   }
 
+  .profile-container,
   .search-flights,
   .available-flights-container,
   .flight-details-container,

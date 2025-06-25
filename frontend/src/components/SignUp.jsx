@@ -13,29 +13,36 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const res = await fetch("/api/signup", {
-    //   method: "POST",
-    //   credentials: "include",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ email, password, firstName, lastName, birthdate, phone, address }),
-    // });
-// 
-    // if (res.ok) {
-    //   navigate("/log-in");
-    // } else {
-    //   alert("Registrierung fehlgeschlagen");
-    // }
+    const res = await fetch("http://localhost:8080/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+        firstName,
+        lastName,
+        birthdate,
+        phone,
+        address,
+      }),
+    });
 
-    navigate("/log-in");
+    if (res.ok) {
+      navigate("/log-in");
+    } else {
+      alert("Registrierung fehlgeschlagen");
+    }
   };
 
-  const today = new Date()
+  const today = new Date();
 
   const min18Date = new Date(
     today.getFullYear() - 18,
     today.getMonth(),
     today.getDate()
-  ).toISOString().split("T")[0];
+  )
+    .toISOString()
+    .split("T")[0];
 
   return (
     <div className="signup-container">
