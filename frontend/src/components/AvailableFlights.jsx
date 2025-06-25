@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function AvailableFlights({ flightSearch, setFlightDetailsID, departureFlightID, setDepartureFlightID }) {
-  const [isReturnPhase, setIsReturnPhase] = useState(departureFlightID ? true : false);
+  const [isReturnPhase, setIsReturnPhase] = useState(flightSearch.tripType === "roundtrip" ? (departureFlightID ? true : false) : false);
 
   const navigate = useNavigate();
 

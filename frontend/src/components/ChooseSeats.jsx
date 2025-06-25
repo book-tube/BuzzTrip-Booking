@@ -57,6 +57,8 @@ export default function ChooseSeats({
       setDepartureSelectedSeats(selectedSeats);
       if (flightSearch.tripType === "roundtrip") {
         navigate("/available-flights");
+      } else {
+        navigate("/passenger-information");
       }
     } else {
       console.log("Return flight ID is null, setting it now.");
