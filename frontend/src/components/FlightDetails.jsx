@@ -7,10 +7,10 @@ export default function FlightDetails({ flightSearch, setFlightDetailsID, flight
   const token = sessionStorage.getItem("authToken");
 
   const handleChooseSeats = () => {
-    if (token === null) {
-      navigate("/log-in");
-      return;
-    }
+   // if (token === null) {
+   //   navigate("/log-in");
+   //   return;
+   // }
 
     navigate(`/${flightDetailsID}/choose-seats`);
   };

@@ -18,7 +18,7 @@ export default function Payment() {
         </label>
         <label>
           Expiry Date:
-          <input type="month" name="expiryDate" required />
+          <input type="month" name="expiryDate" min={new Date().toISOString().slice(0, 7)} max="2100-12" required />
         </label>
         <label>
           CVV:

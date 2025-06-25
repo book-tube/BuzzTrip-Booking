@@ -74,6 +74,8 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
               <label>
                 Date of Birth:
                 <input
+                  min={"1900-01-01"}
+                  max={new Date().toISOString().split("T")[0]}
                   type="date"
                   required
                   value={passenger.dateOfBirth}
