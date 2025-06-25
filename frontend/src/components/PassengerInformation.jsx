@@ -27,35 +27,24 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     navigate("/payment/");
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Passenger Information
-      </h1>
+    <div className="passenger-information-container">
+      <h1 className="passenger-title">Passenger Information</h1>
 
       <form onSubmit={handleSubmit}>
         {passengers.map((passenger, index) => (
-          <div
-            key={index}
-            style={{
-              marginBottom: "30px",
-              padding: "20px",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-            }}
-          >
-            <h2 style={{ marginBottom: "15px" }}>
+          <div key={index} className="passenger-card">
+            <h2 className="passenger-subtitle">
               {index + 1 <= flightSearch.adults
                 ? `Adult Passenger ${index + 1}`
                 : `Child Passenger ${index - flightSearch.adults + 1}`}
               {selectedSeats && ` - Seat ${selectedSeats[index]}`}
             </h2>
 
-            <div style={{ display: "grid", gap: "15px" }}>
+            <div className="passenger-form-group">
               <label>
                 First Name:
                 <input
@@ -65,13 +54,7 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
                   onChange={(e) =>
                     handleInputChange(index, "firstName", e.target.value)
                   }
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                  }}
+                  className="passenger-input"
                 />
               </label>
 
@@ -84,13 +67,7 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
                   onChange={(e) =>
                     handleInputChange(index, "lastName", e.target.value)
                   }
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                  }}
+                  className="passenger-input"
                 />
               </label>
 
@@ -103,13 +80,7 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
                   onChange={(e) =>
                     handleInputChange(index, "dateOfBirth", e.target.value)
                   }
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                  }}
+                  className="passenger-input"
                 />
               </label>
 
@@ -122,13 +93,7 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
                   onChange={(e) =>
                     handleInputChange(index, "nationality", e.target.value)
                   }
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                  }}
+                  className="passenger-input"
                 />
               </label>
 
@@ -141,51 +106,22 @@ export default function PassengerInformation({ flightSearch, selectedSeats }) {
                   onChange={(e) =>
                     handleInputChange(index, "passportNumber", e.target.value)
                   }
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                  }}
+                  className="passenger-input"
                 />
               </label>
             </div>
           </div>
         ))}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "20px",
-          }}
-        >
+        <div className="passenger-button-group">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#f44336",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
+            className="button"
           >
             Back
           </button>
-          <button
-            type="submit"
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
+          <button type="submit" className="button">
             Continue to Payment
           </button>
         </div>

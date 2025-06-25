@@ -79,20 +79,26 @@ export default function ChooseSeats({
         setSelectedSeats(departureSelectedSeats);
       }
     }
-  }, [flightDetailsID, departureFlightID, returnFlightID, setDepartureFlightID, setReturnFlightID]);
+  }, [
+    flightDetailsID,
+    departureFlightID,
+    returnFlightID,
+    setDepartureFlightID,
+    setReturnFlightID,
+  ]);
 
   return (
     <div className="choose-seats-container">
-      <h1 className="choose-seats-title">Choose Your Seats</h1>
-      <p className="choose-seats-subtitle">
+      <h1 className="title">Choose Your Seats</h1>
+      <p className="subtitle">
         Please select {remainingSeats} more seat
         {remainingSeats !== 1 ? "s" : ""}
       </p>
 
       <div className="seat-map">
         <div className="seat-map-header">
-          <p className="bold">Cockpit</p>
-          <p>🚪 Exit 🚪</p>
+          <p className="label">Cockpit</p>
+          <p className="exit-label">🚪 Exit 🚪</p>
         </div>
 
         <div className="seat-rows">
@@ -132,22 +138,18 @@ export default function ChooseSeats({
         </div>
 
         <div className="seat-map-footer">
-          <p>🚻 Restroom</p>
-          <p>🚪 Exit</p>
-          <p>🚻 Restroom</p>
+          <span>🚻 Restroom</span>
+          <span>🚪 Exit</span>
+          <span>🚻 Restroom</span>
         </div>
       </div>
 
-      <div className="choose-seats-buttons">
-        <button
-          onClick={() => handleBackToFlightDetails()}
-          className="back-button"
-        >
+      <div className="button-group">
+        <button onClick={handleBackToFlightDetails}>
           Back to Flight Details
         </button>
         <button
-          onClick={() => handleChooseSeats()}
-          className="continue-button"
+          onClick={handleChooseSeats}
           disabled={selectedSeats.length !== passengerCount}
         >
           Continue

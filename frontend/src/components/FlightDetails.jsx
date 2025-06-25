@@ -14,40 +14,45 @@ export default function FlightDetails({ flightSearch, setFlightDetailsID, flight
   }
 
   return (
-    <div className="flight-details">
-      <h1>Flight Details</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Flight Number</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Departure Time</th>
-            <th>Arrival Time</th>
-            <th>Duration</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* Example flight data, replace with actual data */}
-          <tr>
-            <td>FL123</td>
-            <td>{flightSearch.from}</td>
-            <td>{flightSearch.to}</td>
-            <td>10:00 AM</td>
-            <td>1:00 PM</td>
-            <td>6h 0m</td>
-            <td>$300</td>
-          </tr>
-          {/* Add more flights as needed */}
-        </tbody>
-      </table>
+  <div className="flight-details-container">
+  <h1 className="title">Flight Details</h1>
 
-      <button onClick={handleBack} className="back-button">
-        Back to Available Flights
-      </button>
-
-      <button onClick={handleChooseSeats}>Choose Seats</button>
+  <div className="details-grid">
+    <div>
+      <span className="label">Flight Number</span>
+      <span className="value">FL123</span>
     </div>
+    <div>
+      <span className="label">From</span>
+      <span className="value">{flightSearch.from}</span>
+    </div>
+    <div>
+      <span className="label">To</span>
+      <span className="value">{flightSearch.to}</span>
+    </div>
+    <div>
+      <span className="label">Departure Time</span>
+      <span className="value">10:00 AM</span>
+    </div>
+    <div>
+      <span className="label">Arrival Time</span>
+      <span className="value">1:00 PM</span>
+    </div>
+    <div>
+      <span className="label">Duration</span>
+      <span className="value">6h 0m</span>
+    </div>
+    <div>
+      <span className="label">Price</span>
+      <span className="value">$300</span>
+    </div>
+  </div>
+
+  <div className="button-group">
+    <button className="back-button" onClick={handleBack}>Back to Available Flights</button>
+    <button className="back-button" onClick={handleChooseSeats}>Choose Seats</button>
+  </div>
+</div>
+
   );
 }

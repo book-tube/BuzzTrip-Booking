@@ -18,7 +18,7 @@ export default function AvailableFlights({ flightSearch, setFlightDetailsID, dep
 
 
   return (
-    <div className="AvailableFlights">
+    <div className="available-flights-container">
       <h1>{isReturnPhase ? "Available Return-Flights" : "Available Flights"}</h1>
 
       <h2>
@@ -70,7 +70,6 @@ export default function AvailableFlights({ flightSearch, setFlightDetailsID, dep
           <p>Departure: 4:00 PM</p>
           <p>Arrival: 6:00 PM</p>
         </div>
-      </div>
 
       <button onClick={handleBack} className="back-button">
         Back to Search
@@ -83,6 +82,9 @@ export default function AvailableFlights({ flightSearch, setFlightDetailsID, dep
       }} className="back-button">
         Back to Outbound Seat Selection
       </button>
+      </div>
+
+
     </div>
   );
 }

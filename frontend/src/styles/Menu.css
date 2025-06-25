@@ -22,6 +22,7 @@
 .menu-logo-img {
   height: 105px;
   margin: 15px;
+  border-radius: 10px;
 }
 
 .navbar-logo {

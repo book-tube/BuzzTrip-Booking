@@ -13,6 +13,10 @@ import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import Bookings from "./components/Bookings";
 
+// Style
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 export default function App() {
   const [flightSearch, setFlightSearch] = useState({
     from: "",
