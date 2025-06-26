@@ -130,10 +130,12 @@ export default function App() {
           path="/booking-confirmation"
           element={
             <BookingConfirmation
-              departureFlightID={departureFlightID}
-              returnFlightID={returnFlightID}
+              flightDetailsID={flightDetailsID}
               departureSelectedSeats={departureSelectedSeats}
               returnSelectedSeats={returnSelectedSeats}
+              departureFlightID={departureFlightID}
+              returnFlightID={returnFlightID}
+              flightSearch={flightSearch}
             />
           }
         />

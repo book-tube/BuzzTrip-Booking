@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const seatRows = [
   ["1A", "1B", "1C", "1D", "1E", "1F"],
@@ -27,12 +29,41 @@ export default function ChooseSeats({
   flightSearch,
 }) {
   const navigate = useNavigate();
-  const [occupiedSeats] = useState(["1B", "2C", "5E", "7A", "8F"]);
+  const [occupiedSeats, setOccupiedSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  const token = sessionStorage.getItem("authToken");
   const passengerCount = flightSearch.adults + flightSearch.children;
   const remainingSeats = passengerCount - selectedSeats.length;
+  const dateKey = flightSearch.departureDate;
+
+  useEffect(() => {
+    const initSeatInstance = async () => {
+      const instanceRef = doc(db, "flights", flightDetailsID, "instances", dateKey);
+      const instanceSnap = await getDoc(instanceRef);
+
+      if (!instanceSnap.exists()) {
+        const seats = {};
+        seatRows.flat().forEach((seat) => {
+          seats[seat] = "free";
+        });
+        await setDoc(instanceRef, {
+          createdAt: new Date().toISOString(),
+          seats,
+        });
+        setOccupiedSeats([]);
+      } else {
+        const seatData = instanceSnap.data().seats;
+        const occupied = Object.entries(seatData)
+          .filter(([_, status]) => status === "booked")
+          .map(([seat]) => seat);
+        setOccupiedSeats(occupied);
+      }
+    };
+
+    if (flightDetailsID && dateKey) {
+      initSeatInstance();
+    }
+  }, [flightDetailsID, dateKey]);
 
   const handleBackToFlightDetails = () => {
     navigate(`/flight-details/${flightDetailsID}`);
@@ -51,9 +82,19 @@ export default function ChooseSeats({
     });
   };
 
-  const handleChooseSeats = () => {
+  const handleChooseSeats = async () => {
+    const instanceRef = doc(db, "flights", flightDetailsID, "instances", dateKey);
+    const instanceSnap = await getDoc(instanceRef);
+    if (!instanceSnap.exists()) return;
+
+    const updatedSeats = { ...instanceSnap.data().seats };
+    selectedSeats.forEach((seat) => {
+      updatedSeats[seat] = "booked";
+    });
+
+    await updateDoc(instanceRef, { seats: updatedSeats });
+
     if (departureFlightID === null) {
-      console.log("Departure flight ID is null, setting it now.");
       setDepartureFlightID(flightDetailsID);
       setDepartureSelectedSeats(selectedSeats);
       if (flightSearch.tripType === "roundtrip") {
@@ -62,33 +103,11 @@ export default function ChooseSeats({
         navigate("/passenger-information");
       }
     } else {
-      console.log("Return flight ID is null, setting it now.");
       setReturnFlightID(flightDetailsID);
       setReturnSelectedSeats(selectedSeats);
       navigate("/passenger-information");
     }
   };
-
-  useEffect(() => {
-    if (departureSelectedSeats.length >= 0) {
-      // Do Nothing because no seats were selected previously
-    } else if (departureSelectedSeats.length > 0) {
-      // If there are selected seats from the departure flight, check if the return flight has selected seats
-      if (returnSelectedSeats.length > 0) {
-        // If there are selected seats from the return flight, set them as the selected seats
-        setSelectedSeats(returnSelectedSeats);
-      } else {
-        // If there are no selected seats from the return flight, set the departure selected seats
-        setSelectedSeats(departureSelectedSeats);
-      }
-    }
-  }, [
-    flightDetailsID,
-    departureFlightID,
-    returnFlightID,
-    setDepartureFlightID,
-    setReturnFlightID,
-  ]);
 
   return (
     <div className="choose-seats-container">

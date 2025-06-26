@@ -12,15 +12,16 @@ export default function Bookings() {
       if (!currentUser) return;
 
       try {
-        const q = query(
+        const userBookingsQuery = query(
           collection(db, "bookings"),
           where("userId", "==", currentUser.uid)
         );
 
-        const querySnapshot = await getDocs(q);
-        const fetchedBookings = querySnapshot.docs.map(doc => ({
+        const snapshot = await getDocs(userBookingsQuery);
+
+        const fetchedBookings = snapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
 
         setBookings(fetchedBookings);
@@ -45,13 +46,32 @@ export default function Bookings() {
         <ul>
           {bookings.map((booking, index) => (
             <li key={index}>
-              <p><strong>Departure:</strong> {booking.departureFlightID}</p>
-              <p><strong>Return:</strong> {booking.returnFlightID || "—"}</p>
-              <p><strong>Departure Seats:</strong> {booking.departureSelectedSeats?.join(", ")}</p>
+              <p>
+                <strong>From:</strong> {booking.from}
+              </p>
+              <p>
+                <strong>To:</strong> {booking.to}
+              </p>
+              <p>
+                <strong>Departure Flight:</strong> {booking.departureFlightID}
+              </p>
+              <p>
+                <strong>Return Flight:</strong> {booking.returnFlightID || "—"}
+              </p>
+              <p>
+                <strong>Departure Seats:</strong>{" "}
+                {booking.departureSelectedSeats?.join(", ")}
+              </p>
               {booking.returnSelectedSeats?.length > 0 && (
-                <p><strong>Return Seats:</strong> {booking.returnSelectedSeats.join(", ")}</p>
+                <p>
+                  <strong>Return Seats:</strong>{" "}
+                  {booking.returnSelectedSeats.join(", ")}
+                </p>
               )}
-              <p><strong>Gebucht am:</strong> {booking.timestamp?.toDate?.().toLocaleString() || "—"}</p>
+              <p>
+                <strong>Gebucht am:</strong>{" "}
+                {booking.timestamp?.toDate?.().toLocaleString() || "—"}
+              </p>
               <hr />
             </li>
           ))}

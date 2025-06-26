@@ -3,10 +3,12 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 export default function BookingConfirmation({
+  flightDetailsID,
+  departureSelectedSeats,
+  returnSelectedSeats,
   departureFlightID,
   returnFlightID,
-  departureSelectedSeats,
-  returnSelectedSeats
+  flightSearch,
 }) {
   useEffect(() => {
     const saveBookingToFirestore = async () => {
@@ -14,12 +16,15 @@ export default function BookingConfirmation({
       if (!currentUser) return;
 
       const bookingData = {
+        triptype: flightSearch.tripType,
+        from: flightSearch.from,
+        to: flightSearch.to,
         userId: currentUser.uid,
         departureFlightID,
         returnFlightID,
         departureSelectedSeats,
         returnSelectedSeats,
-        timestamp: serverTimestamp()
+        timestamp: serverTimestamp(),
       };
 
       try {
