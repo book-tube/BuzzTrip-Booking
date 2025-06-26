@@ -1,9 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase"; // Pfad ggf. anpassen
 import "/src/styles/Menu.css";
 
 export default function Menu({ isLoggedIn }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setOpen(false);
+      navigate("/log-in");
+    } catch (error) {
+      console.error("Logout fehlgeschlagen:", error);
+      alert("Fehler beim Logout");
+    }
+  };
 
   return (
     <nav className="menu-nav">
@@ -34,9 +48,7 @@ export default function Menu({ isLoggedIn }) {
               <Link to="/bookings" onClick={() => setOpen(false)}>
                 Bookings
               </Link>
-              <Link to="/logout" onClick={() => setOpen(false)}>
-                Logout
-              </Link>
+              <button onClick={handleLogout}>Logout</button>
             </>
           )}
         </div>

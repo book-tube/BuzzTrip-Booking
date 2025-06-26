@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-
-
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 export default function BookingConfirmation({
   departureFlightID,
@@ -9,42 +9,34 @@ export default function BookingConfirmation({
   returnSelectedSeats
 }) {
   useEffect(() => {
-    const bookingData = {
-      departureFlightID,
-      returnFlightID,
-      departureSelectedSeats,
-      returnSelectedSeats,
-    };
+    const saveBookingToFirestore = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser) return;
 
-    const token = sessionStorage.getItem("authToken");
+      const bookingData = {
+        userId: currentUser.uid,
+        departureFlightID,
+        returnFlightID,
+        departureSelectedSeats,
+        returnSelectedSeats,
+        timestamp: serverTimestamp()
+      };
 
-    const sendBooking = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/bookings", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { "Authorization": `Bearer ${token}` }),
-          },
-          body: JSON.stringify(bookingData),
-        });
-
-        if (!res.ok) {
-          console.error("Fehler beim Speichern der Buchung");
-        }
+        await addDoc(collection(db, "bookings"), bookingData);
+        console.log("Buchung erfolgreich gespeichert");
       } catch (error) {
-        console.error("Netzwerkfehler:", error);
+        console.error("Fehler beim Speichern der Buchung:", error);
       }
     };
 
-    sendBooking();
+    saveBookingToFirestore();
   }, [
     departureFlightID,
     returnFlightID,
     departureSelectedSeats,
     returnSelectedSeats,
   ]);
-
 
   return (
     <div className="booking-confirmation">

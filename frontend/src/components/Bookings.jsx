@@ -1,52 +1,31 @@
 import { useEffect, useState } from "react";
-
-
+import { auth, db } from "../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function Bookings() {
-
-  const bookingss = [
-    {
-      departureFlightID: "LX123",
-      returnFlightID: "LX124",
-      departureSelectedSeats: ["12A", "12B"],
-      returnSelectedSeats: ["14C", "14D"],
-      date: "2025-07-01",
-      price: 450.00
-    },
-    {
-      departureFlightID: "BA987",
-      returnFlightID: null, // One-way
-      departureSelectedSeats: ["3A"],
-      returnSelectedSeats: [],
-      date: "2025-08-15",
-      price: 199.99
-    }
-  ];
-  
-  const [bookings, setBookings] = useState(bookingss);
+  const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  
-
   useEffect(() => {
-    const token = sessionStorage.getItem("authToken");
-
     const fetchBookings = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser) return;
+
       try {
-        const res = await fetch("http://localhost:8080/api/bookings/my", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
+        const q = query(
+          collection(db, "bookings"),
+          where("userId", "==", currentUser.uid)
+        );
 
-        if (!res.ok) {
-          throw new Error("Fehler beim Abrufen der Buchungen");
-        }
+        const querySnapshot = await getDocs(q);
+        const fetchedBookings = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
 
-        const data = await res.json();
-        setBookings(data);
+        setBookings(fetchedBookings);
       } catch (error) {
-        console.error(error.message);
+        console.error("Fehler beim Abrufen der Buchungen:", error);
       } finally {
         setLoading(false);
       }
@@ -56,7 +35,7 @@ export default function Bookings() {
   }, []);
 
   return (
-    <div className="bookings-contianer">
+    <div className="bookings-container">
       <h1>Bookings</h1>
       {loading ? (
         <p>Lade Buchungen...</p>
@@ -67,8 +46,12 @@ export default function Bookings() {
           {bookings.map((booking, index) => (
             <li key={index}>
               <p><strong>Departure:</strong> {booking.departureFlightID}</p>
-              <p><strong>Return:</strong> {booking.returnFlightID}</p>
-              <p><strong>Seats:</strong> {booking.departureSelectedSeats.join(", ")}</p>
+              <p><strong>Return:</strong> {booking.returnFlightID || "—"}</p>
+              <p><strong>Departure Seats:</strong> {booking.departureSelectedSeats?.join(", ")}</p>
+              {booking.returnSelectedSeats?.length > 0 && (
+                <p><strong>Return Seats:</strong> {booking.returnSelectedSeats.join(", ")}</p>
+              )}
+              <p><strong>Gebucht am:</strong> {booking.timestamp?.toDate?.().toLocaleString() || "—"}</p>
               <hr />
             </li>
           ))}

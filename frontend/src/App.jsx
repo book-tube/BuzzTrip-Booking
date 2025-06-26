@@ -1,5 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  onAuthStateChanged
+} from "firebase/auth";
+import { auth } from "./firebase";
+
+// Komponenten
 import SearchFlights from "./components/SearchFlights";
 import AvailableFlights from "./components/AvailableFlights";
 import FlightDetails from "./components/FlightDetails";
@@ -25,40 +31,31 @@ export default function App() {
     returnDate: "",
     adults: 1,
     children: 0,
-    tripType: "", // "oneway" or "roundtrip"
+    tripType: "",
   });
   const [flightDetailsID, setFlightDetailsID] = useState(null);
   const [departureFlightID, setDepartureFlightID] = useState(null);
   const [returnFlightID, setReturnFlightID] = useState(null);
   const [departureSelectedSeats, setDepartureSelectedSeats] = useState([]);
   const [returnSelectedSeats, setReturnSelectedSeats] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  // 🔐 Auth-Zustand überwachen
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
       <Menu isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="*" element={<Navigate to="/search-flights" replace />} />
-        // Redirect to search flights if no path matches
 
-        <Route
-         path="/log-in" 
-         element={
-            <LogIn 
-            setIsLoggedIn={setIsLoggedIn} 
-            />
-          }    
-         />
-
-        <Route 
-        path="/sign-up" 
-        element={
-            <SignUp 
-              setIsLoggedIn={setIsLoggedIn}
-            />
-          }   
-        />
+        <Route path="/log-in" element={<LogIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
 
         <Route
           path="/search-flights"
@@ -127,18 +124,12 @@ export default function App() {
           }
         />
 
-        <Route 
-        path="/payment" 
-        element={
-            <Payment 
-            />
-          } 
-        />
+        <Route path="/payment" element={<Payment />} />
 
         <Route
           path="/booking-confirmation"
           element={
-            <BookingConfirmation 
+            <BookingConfirmation
               departureFlightID={departureFlightID}
               returnFlightID={returnFlightID}
               departureSelectedSeats={departureSelectedSeats}
@@ -147,23 +138,16 @@ export default function App() {
           }
         />
 
-        <Route 
-        path="/profile" 
-        element={
-            <Profile 
-
-            />
-          } 
+        {/* 🔐 Geschützte Routen */}
+        <Route
+          path="/profile"
+          element={isLoggedIn ? <Profile /> : <Navigate to="/log-in" />}
         />
 
-        <Route 
-        path="/bookings" 
-        element={
-            <Bookings 
-            />
-          } 
+        <Route
+          path="/bookings"
+          element={isLoggedIn ? <Bookings /> : <Navigate to="/log-in" />}
         />
-        
       </Routes>
     </>
   );

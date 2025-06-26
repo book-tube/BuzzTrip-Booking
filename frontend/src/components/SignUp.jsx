@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+
+
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,26 +15,27 @@ export default function SignUp() {
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:8080/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Benutzerdaten in Firestore speichern
+      await setDoc(doc(db, "users", user.uid), {
         firstName,
         lastName,
         birthdate,
         phone,
         address,
-      }),
-    });
+        email,
+      });
 
-    if (res.ok) {
-      navigate("/log-in");
-    } else {
+      navigate("/search-flights");
+    } catch (error) {
+      console.error("Fehler bei Registrierung:", error);
       alert("Registrierung fehlgeschlagen");
     }
   };

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function LogIn() {
   const [email, setEmail] = useState("");
@@ -9,30 +11,13 @@ export default function LogIn() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:8080/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const token = data.token; // <-- hier nimmst du das JWT aus der Antwort
-
-      // Token speichern, z. B. im Speicher oder Context
-      sessionStorage.setItem("authToken", token);
-
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       navigate("/search-flights");
-    } else {
+    } catch (error) {
+      console.error("Login fehlgeschlagen:", error);
       alert("Login fehlgeschlagen");
     }
-
-    navigate("/search-flights");
   };
 
   return (
