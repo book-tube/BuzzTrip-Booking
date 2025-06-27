@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8fafc;
-  color:  #1e40af;
+  color:  #2d3a65;
 }
 
 /* Navigation Bar */
@@ -20,7 +20,7 @@ nav {
 }
 
 nav a {
-  color: #0f172a;
+  color: #2d3a65;
   text-decoration: none;
   font-weight: 500;
 }
