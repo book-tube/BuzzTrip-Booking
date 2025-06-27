@@ -22,7 +22,7 @@ export default function Menu({ isLoggedIn }) {
   return (
     <nav className="menu-nav">
       <div className="menu-logo">
-        <img src="../../public/BuzzTrip.png" alt="BuzzTrip Logo" className="menu-logo-img" />
+        <img src="/BuzzTrip-Booking/BuzzTrip.png" alt="BuzzTrip Logo" className="menu-logo-img" />
       </div>
       <div className="navbar-logo">Buzz⚡Trip Booking</div>
       <div className="menu-toggle" onClick={() => setOpen(!open)}>
