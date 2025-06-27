@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8fafc;
-  color: #0f172a;
+  color:  #1e40af;
 }
 
 /* Navigation Bar */
@@ -285,7 +285,7 @@ label {
 .title {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #0a0a23;
+  color:  #1e40af
   margin-bottom: 0.5rem;
 }
 
