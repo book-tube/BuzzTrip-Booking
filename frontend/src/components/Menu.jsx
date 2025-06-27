@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase"; // Pfad ggf. anpassen
+import { auth } from "../firebase";
 import "/src/styles/Menu.css";
 
 export default function Menu({ isLoggedIn }) {
@@ -22,7 +22,7 @@ export default function Menu({ isLoggedIn }) {
   return (
     <nav className="menu-nav">
       <div className="menu-logo">
-        <img src="/BuzzTrip.png" alt="BuzzTrip Logo" className="menu-logo-img" />
+        <img src="../../public/BuzzTrip.png" alt="BuzzTrip Logo" className="menu-logo-img" />
       </div>
       <div className="navbar-logo">Buzz⚡Trip Booking</div>
       <div className="menu-toggle" onClick={() => setOpen(!open)}>
